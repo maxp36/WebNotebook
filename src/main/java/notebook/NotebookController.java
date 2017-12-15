@@ -4,17 +4,28 @@ import notebook.dao.ContactRepository;
 import notebook.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path = "/")
+@RequestMapping(path = "/contacts")
 public class NotebookController {
 
+    private final ContactRepository contactRepository;
+
     @Autowired
-    private ContactRepository contactRepository;
+    public NotebookController(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
+    }
+
+    @GetMapping()
+    public @ResponseBody Iterable<Contact> getContacts() {
+        return contactRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public @ResponseBody Contact getContact(@PathVariable Long id) {
+        return contactRepository.findOne(id);
+    }
 
     @GetMapping(path = "/add")
     public @ResponseBody String addContact(@RequestParam String phone, @RequestParam String name) {
@@ -23,13 +34,4 @@ public class NotebookController {
         return "Saved";
     }
 
-    @GetMapping(path = "/")
-    public @ResponseBody Iterable<Contact> getContacts() {
-        return contactRepository.findAll();
-    }
-
-    /*@RequestMapping("/")
-    public String index() {
-        return "Hello";
-    }*/
 }
