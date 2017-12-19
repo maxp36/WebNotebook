@@ -1,5 +1,7 @@
 package notebook.model;
 
+import notebook.validators.annotations.NameInfo;
+import notebook.validators.annotations.PhoneInfo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,10 +15,12 @@ public class Contact {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "PHONE", length = 12, nullable = false, unique = true)
+    @PhoneInfo
+    @Column(name = "PHONE", nullable = false, unique = true)
     private String phone;
 
-    @Column(name = "NAME", length = 20, nullable = false)
+    @NameInfo
+    @Column(name = "NAME", length = 50, nullable = false)
     private String name;
 
     /*@Column(name = "EMAIL", length = 20, nullable = false)

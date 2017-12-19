@@ -1,21 +1,22 @@
 package notebook.validators;
 
-import notebook.validators.annotations.PhoneInfo;
+import notebook.validators.annotations.NameInfo;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-public class PhoneValidator implements ConstraintValidator<PhoneInfo, String> {
+public class NameValidator implements ConstraintValidator<NameInfo, String> {
 
     private String pattern;
     @Override
-    public void initialize(PhoneInfo contactInfo) {
-        pattern = "^([0-9]( |-)?)?(\\(?[0-9]{3}\\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[a-zA-Z0-9]{7})$";
+    public void initialize(NameInfo contactInfo) {
+        pattern = "^([a-zA-Zа-яА-Я]\\.?)+(([',. -]([a-zA-Zа-яА-Я ])\\.?)?([a-zA-Zа-яА-Я]\\.?)*)*$";
     }
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
         return Pattern.matches(pattern, s);
     }
+
 }
